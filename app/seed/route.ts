@@ -102,6 +102,9 @@ async function seedRevenue() {
 }
 
 export async function GET() {
+  if (process.env.NODE_ENV === 'production') {
+    return Response.json({ error: 'Seeding no permitido en producción' }, { status: 403 });
+  }
   try {
     const result = await sql.begin((sql) => [
       seedUsers(),
